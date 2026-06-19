@@ -1,0 +1,62 @@
+[
+  {
+    "id": "quiz-gen-1781844169784-tjj8d69",
+    "question": "What is waitlist and prerequisite checking features?",
+    "options": {
+      "A": "Common and technically achievable",
+      "B": "Feasible",
+      "C": "Relatively low",
+      "D": "High Feasibility"
+    },
+    "correctAnswer": "A",
+    "explanation": "Common and technically achievable"
+  },
+  {
+    "id": "quiz-gen-1781844169784-su4pwzd",
+    "question": "What is technology Feasibility?",
+    "options": {
+      "A": "High Feasibility",
+      "B": "Common and technically achievable",
+      "C": "Relatively low",
+      "D": "Feasible"
+    },
+    "correctAnswer": "A",
+    "explanation": "High Feasibility"
+  },
+  {
+    "id": "quiz-gen-1781844169784-pcia7nq",
+    "question": "What is economic Feasibility?",
+    "options": {
+      "A": "Feasible",
+      "B": "Relatively low",
+      "C": "High Feasibility",
+      "D": "High Feasibility"
+    },
+    "correctAnswer": "A",
+    "explanation": "Feasible"
+  },
+  {
+    "id": "quiz-gen-1781844169784-gn408h8",
+    "question": "What is organizational Feasibility?",
+    "options": {
+      "A": "High Feasibility",
+      "B": "Relatively low",
+      "C": "Common and technically achievable",
+      "D": "Feasible"
+    },
+    "correctAnswer": "A",
+    "explanation": "High Feasibility"
+  },
+  {
+    "id": "quiz-gen-1781844169784-bxys4im",
+    "question": "What is training requirements?",
+    "options": {
+      "A": "Relatively low",
+      "B": "Feasible",
+      "C": "High Feasibility",
+      "D": "High Feasibility"
+    },
+    "correctAnswer": "A",
+    "explanation": "Relatively low"
+  }
+]

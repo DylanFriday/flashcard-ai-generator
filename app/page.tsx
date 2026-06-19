@@ -1,65 +1,208 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useActionState, useState, useRef } from "react";
+import Link from "next/link";
+import { generateAll } from "./actions";
+import type { GenerateResult } from "./actions";
+
+const initialState: GenerateResult = {
+  success: false,
+  flashcards: [],
+  quizQuestions: [],
+  message: "",
+  errors: [],
+};
+
+export default function HomePage() {
+  const [state, formAction, pending] = useActionState(generateAll, initialState);
+  const [inputMode, setInputMode] = useState<"notes" | "pdf">("notes");
+  const [pdfFileName, setPdfFileName] = useState<string>("");
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setPdfFileName(file ? file.name : "");
+  };
+
+  const handleModeSwitch = (mode: "notes" | "pdf") => {
+    setInputMode(mode);
+    // Clear the other input when switching modes
+    if (mode === "pdf") {
+      // textarea is handled by form reset via key
+    } else {
+      setPdfFileName("");
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex flex-col items-center gap-6 py-12 px-4 max-w-lg mx-auto">
+      <div className="text-center">
+        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-100">
+          Convert Your Notes into Flashcards
+        </h1>
+        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          Paste your study notes or upload a PDF. Choose how many flashcards and
+          quiz questions you want, then click Generate.
+        </p>
+      </div>
+
+      <form action={formAction} className="flex flex-col gap-5 w-full">
+        {/* ---- Input mode toggle ---- */}
+        <div className="flex rounded-lg border border-zinc-200 dark:border-zinc-700 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => handleModeSwitch("notes")}
+            className={`flex-1 py-2 text-sm font-medium transition-colors ${
+              inputMode === "notes"
+                ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black"
+                : "bg-transparent text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+            }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            ✏️ Paste Notes
+          </button>
+          <button
+            type="button"
+            onClick={() => handleModeSwitch("pdf")}
+            className={`flex-1 py-2 text-sm font-medium transition-colors ${
+              inputMode === "pdf"
+                ? "bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black"
+                : "bg-transparent text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900"
+            }`}
+          >
+            📄 Upload PDF
+          </button>
+        </div>
+
+        {/* ---- Notes textarea ---- */}
+        {inputMode === "notes" && (
+          <div className="flex flex-col gap-1">
+            <label htmlFor="notes" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Study Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              rows={10}
+              placeholder={`Paste your study notes here...
+
+Examples:
+- Recursion is a function that calls itself.
+- A closure allows a function to access variables from its outer scope.
+- REST refers to Representational State Transfer.
+- A stack uses LIFO ordering for data access.`}
+              className="w-full p-4 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 text-sm resize-y focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+        )}
+
+        {/* ---- PDF upload ---- */}
+        {inputMode === "pdf" && (
+          <div className="flex flex-col gap-1">
+            <label htmlFor="pdf" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              PDF File
+            </label>
+            <div className="relative">
+              <input
+                ref={fileRef}
+                id="pdf"
+                name="pdf"
+                type="file"
+                accept="application/pdf"
+                onChange={handlePdfChange}
+                className="w-full text-sm text-zinc-600 dark:text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-900 dark:file:text-zinc-100 hover:file:bg-zinc-200 dark:hover:file:bg-zinc-700 file:cursor-pointer cursor-pointer"
+              />
+            </div>
+            {pdfFileName && (
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+                Selected: {pdfFileName}
+              </p>
+            )}
+            <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1">
+              The PDF must contain selectable text (not scanned images).
+            </p>
+          </div>
+        )}
+
+        {/* ---- Quantity inputs ---- */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1">
+            <label htmlFor="flashcardCount" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Flashcards
+            </label>
+            <input
+              id="flashcardCount"
+              name="flashcardCount"
+              type="number"
+              min={1}
+              max={50}
+              defaultValue={5}
+              required
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="quizCount" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Quiz Questions
+            </label>
+            <input
+              id="quizCount"
+              name="quizCount"
+              type="number"
+              min={1}
+              max={50}
+              defaultValue={5}
+              required
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
         </div>
-      </main>
+
+        {/* ---- Submit ---- */}
+        <button
+          type="submit"
+          disabled={pending}
+          className="px-6 py-3 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
+        >
+          {pending ? "Generating..." : "Generate Flashcards & Quiz"}
+        </button>
+      </form>
+
+      {/* ---- Validation errors ---- */}
+      {state.errors.length > 0 && (
+        <div
+          className="w-full p-4 rounded-lg bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm"
+          role="alert"
+        >
+          <p className="font-medium mb-1">Please fix the following:</p>
+          <ul className="list-disc list-inside space-y-1">
+            {state.errors.map((err, i) => (
+              <li key={i}>{err}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* ---- Success result ---- */}
+      {state.success && (
+        <div className="w-full p-4 rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 text-sm">
+          <p className="font-medium">{state.message}</p>
+          <div className="flex gap-4 mt-3">
+            <Link
+              href="/flashcards"
+              className="inline-block font-medium underline underline-offset-2"
+            >
+              View {state.flashcards.length} Flashcard{state.flashcards.length !== 1 ? "s" : ""} →
+            </Link>
+            <Link
+              href="/quiz"
+              className="inline-block font-medium underline underline-offset-2"
+            >
+              Take {state.quizQuestions.length} Question Quiz →
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
