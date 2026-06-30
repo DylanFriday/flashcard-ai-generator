@@ -1,47 +1,86 @@
 ---
 marp: true
+theme: default
 paginate: true
-transition: fade
-# PechaKucha: 6 slides, 20s auto-advance. Do not change the count.
-auto-advance: 20
+size: 16:9
 ---
 
-<!-- slide 1 -->
-# Who's my person?
-<!-- 20s -->
-A university student with pages of study notes and PDF lecture slides — overwhelmed by content, short on time, and tired of making flashcards by hand.
+# Flashcard AI Generator
 
----
+### AI-powered study companion
 
-<!-- slide 2 -->
-# Their problem
-Manually turning notes into flashcards takes hours. Quiz creation is even slower. They waste study time on formatting instead of actually learning. PDF lecture slides sit unused because there's no easy way to convert them.
+**Author:** @DylanFriday
 
 ---
 
-<!-- slide 3 -->
-# What I built
-An AI-powered flashcard and quiz generator. Paste study notes or upload a PDF, choose how many flashcards and quiz questions you want, and hit Generate. Flashcards appear as flip-through cards. Quizzes are multiple-choice with instant scoring — all in one web app.
+# What is Flashcard AI Generator?
+
+Flashcard AI Generator is a web application that converts study notes into interactive flashcards using AI.
+
+Students can review important concepts quickly without creating flashcards manually.
 
 ---
 
-<!-- slide 4 -->
-# How I built it
-- MCP: Filesystem server reads/writes `flashcards.json` and `quiz.json` directly from the data layer
-- Skill: Flashcard Generator skill converts raw notes into structured Q&A pairs
-- Agent: Quiz Master agent builds multiple-choice quizzes with plausible distractors from existing flashcards
-- Stack: Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v4
+# Problem
+
+Students often:
+
+- Spend too much time making flashcards
+- Have large amounts of lecture notes
+- Need a faster way to prepare for exams
 
 ---
 
-<!-- slide 5 -->
-# Why it matters
-Students get from "I have notes" to "I'm ready for the exam" in under a minute. No manual flashcard typing. No wasted study time. PDF support means even scanned lecture materials become usable. The AI handles formatting — the student handles learning.
+# Solution
+
+Flashcard AI Generator helps students by:
+
+- Generating flashcards automatically
+- Creating quizzes from study notes
+- Saving time during exam preparation
+- Making revision more engaging
 
 ---
 
-<!-- slide 6 -->
-# Done checklist
-- [ ] repo public
-- [ ] MCP + skill + agent used
-- [ ] report.md in team repo
+# Target Users
+
+- University students
+- High school students
+- Self-learners
+- Anyone preparing for exams
+
+---
+
+# Key Features
+
+✅ Paste notes
+
+✅ Upload PDF
+
+✅ Generate AI flashcards
+
+✅ Choose number of flashcards
+
+✅ Practice with quizzes
+
+---
+
+# Technology
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- AI API
+
+---
+
+# Live Demo
+
+Repository - https://github.com/DylanFriday/flashcard-ai-generator
+
+Live Website - https://flashcard-ai-generator-51oajakvz-khezudevs-projects.vercel.app/
+
+# Thank You
+
+Questions?

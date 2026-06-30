@@ -162,9 +162,16 @@ Examples:
         <button
           type="submit"
           disabled={pending}
-          className="px-6 py-3 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
+          className="px-6 py-3 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors flex items-center justify-center gap-2"
         >
-          {pending ? "Generating..." : "Generate Flashcards & Quiz"}
+          {pending ? (
+            <>
+              <span className="spinner" />
+              Generating...
+            </>
+          ) : (
+            "Generate Flashcards & Quiz"
+          )}
         </button>
       </form>
 

@@ -19,15 +19,23 @@ export default function FlashcardsClient({ flashcards }: Props) {
 
   if (flashcards.length === 0) {
     return (
-      <div className="flex flex-col items-center gap-4 py-16 text-center">
-        <p className="text-zinc-500 dark:text-zinc-400">
-          No flashcards yet. Generate some from your study notes first.
-        </p>
+      <div className="flex flex-col items-center gap-6 py-16 text-center">
+        <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+          <span className="text-3xl">🎴</span>
+        </div>
+        <div className="flex flex-col gap-2">
+          <p className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
+            No flashcards yet
+          </p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            Paste your study notes or upload a PDF to generate flashcards.
+          </p>
+        </div>
         <Link
           href="/"
-          className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline underline-offset-2"
+          className="px-5 py-2.5 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
         >
-          ← Go to Home
+          Create Flashcards →
         </Link>
       </div>
     );
@@ -63,9 +71,16 @@ export default function FlashcardsClient({ flashcards }: Props) {
         <button
           onClick={handleGenerateQuiz}
           disabled={quizPending}
-          className="px-6 py-3 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors"
+          className="px-6 py-3 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-zinc-700 dark:hover:bg-zinc-300 transition-colors flex items-center justify-center gap-2"
         >
-          {quizPending ? "Generating Quiz..." : "Generate Quiz from Flashcards"}
+          {quizPending ? (
+            <>
+              <span className="spinner" />
+              Generating Quiz...
+            </>
+          ) : (
+            "Generate Quiz from Flashcards"
+          )}
         </button>
 
         {quizMessage && (
